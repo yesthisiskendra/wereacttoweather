@@ -4,20 +4,14 @@ import ZipDisplay from './ZipDisplay.js';
 
 import './App.css';
 
-export default class App extends React.Component {
-  state = {
-    zipcode: null
-  };
-
-  render() {
+function Main() {
   return (
     <div className="App">
-      Just the container & state holder
+      Just the container
       <ZipInput />
       <ZipDisplay />
     </div>
   );
-  }
 }
 
-
+export default Main;
