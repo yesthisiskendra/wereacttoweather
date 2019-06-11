@@ -9,15 +9,18 @@ export default class App extends React.Component {
     zipcode: null
   };
 
+  componentDidMount(){
+    let zipcode = window.location.pathname.split('/')[1]
+    this.setState({ zipcode });
+  }
+
   render() {
+    const zipcode = this.state.zipcode;
   return (
     <div className="App">
       Just the container & state holder
-      <ZipInput />
-      <ZipDisplay />
+      {zipcode ? (<ZipDisplay />):(<ZipInput />)}
     </div>
   );
   }
 }
-
-
