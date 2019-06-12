@@ -1,12 +1,17 @@
 import React from 'react';
 import './App.css';
 
-function ZipDisplay() {
-  return (
-    <div className="">
-    	Pretty Charts will go here
-    </div>
-  );
+export default class ZipDisplay extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+    	error: ''
+    }
+  }
+  render(){
+  	const error = this.state.error;
+  	return (
+  		<h3>for {this.props.zipcode}</h3>
+	  );
+  }
 }
-
-export default ZipDisplay;

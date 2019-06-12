@@ -12,7 +12,6 @@ export default class App extends React.Component {
       value: ''
     }
     this.handleZipChange = this.handleZipChange.bind(this);
-    this.handleZipSubmit = this.handleZipSubmit.bind(this);
   };
 
   componentDidMount(){
@@ -24,23 +23,19 @@ export default class App extends React.Component {
     this.setState({ value })
   }
 
-  handleZipSubmit(zipcode){
-    this.setState({ zipcode })
-  }
-
   render() {
     const value = this.state.value;
     const zipcode = this.state.zipcode;
     
     return (
-      <div className="App">
-        Just the container & state holder
+      <div className="container centered">
+        <h1>Historical Weather Data</h1>
         {zipcode ? (
-          <ZipDisplay 
+          <ZipDisplay
+            zipcode={zipcode}
           />):(<ZipInput
             value={value}
             onZipChange={this.handleZipChange}
-            onZipSubmit={this.handleZipSubmit}
           />)}
       </div>
     );

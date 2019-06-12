@@ -16,7 +16,7 @@ export default class ZipInput extends React.Component {
   }
 
   redirectOnSubmit(event){
-  	if(this.props.value.toString().length == 5){window.location.replace('/'+this.props.value)}
+  	if(this.props.value.toString().length == 5){window.location.href = '/'+this.props.value}
   	else {
   		this.setState({ error: 'Please enter a 5 digit zip code' })
   	};
@@ -27,9 +27,9 @@ export default class ZipInput extends React.Component {
   	const error = this.state.error;
   	return (
 	    <form className="col s12" onSubmit={this.redirectOnSubmit}>
-	      <div className="row"><div className="col s3"></div>
+	      <div className="row"><div className="col s12 m3"></div>
 
-	        <div className="input-field col s6">
+	        <div className="input-field col s12 m6">
 	          <i className="material-icons prefix">account_circle</i>
 	          <input id="icon_prefix" type="text" value={this.props.value} onChange={this.handleChange}/>
 	          {!this.props.value && <label htmlFor="icon_prefix">Zip Code</label> }
@@ -39,7 +39,7 @@ export default class ZipInput extends React.Component {
 		        {error && <h5>{error}</h5>}
 	        </div>
 
-	      <div className="col s3"></div></div>
+	      <div className="col s12 m3"></div></div>
 	    </form>
 	  );
   }
