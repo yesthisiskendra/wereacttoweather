@@ -40,3 +40,9 @@
 .centered {
   text-align: center;
 }
+
+.chart {
+  display: block;
+  margin: 0 auto;
+  /*border: 2px solid red;*/
+}

@@ -16,7 +16,7 @@ export default class ZipInput extends React.Component {
   }
 
   redirectOnSubmit(event){
-  	if(this.props.value.toString().length == 5){window.location.href = '/'+this.props.value}
+  	if(this.props.value.toString().length === 5){window.location.href = '/'+this.props.value}
   	else {
   		this.setState({ error: 'Please enter a 5 digit zip code' })
   	};
