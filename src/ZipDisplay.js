@@ -12,10 +12,11 @@ export default class ZipDisplay extends React.Component {
   }
   render(){
   	const error = this.state.error;
+  	const zipcode = this.props.zipcode;
   	return (
   		<div>
-  			<h3>for {this.props.zipcode}</h3>
-  			<BarChart />
+  			<h3>for {zipcode}</h3>
+  			<BarChart zipcode={zipcode}/>
   			<YearChart />
   		</div>
 	  );

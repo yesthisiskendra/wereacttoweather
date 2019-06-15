@@ -1,6 +1,8 @@
 import React from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
 import ZipInput from './ZipInput.js';
 import ZipDisplay from './ZipDisplay.js';
+
 
 import './App.css';
 

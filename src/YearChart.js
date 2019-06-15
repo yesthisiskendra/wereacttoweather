@@ -15,7 +15,7 @@ function formatDateAndTemp(month, day){
 
 function generateData() {
 	const [max, min] = [95, 75];
-  let yearData = [[{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }]];
+  let yearData = [[{ type: 'date', id: 'Date' }, { type: 'number', id: 'Temp' }]];
   for(let i = 0; i < 12; i++){
     if (i == 1){
     	for(let ii = 1; ii < 29; ii++){
