@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-
-// Import Materialize
 import M from "materialize-css";
 
 
@@ -10,15 +8,10 @@ class Dropdown extends Component {
       this.handleClick = this.handleClick.bind(this);
     }
     componentDidMount() {
-      console.log('PROPS', this.props)
-        // Auto initialize all the things!
-        // M.AutoInit();
-        let selects = document.querySelectorAll('select');
-         M.FormSelect.init(selects, {});
+      let selects = document.querySelectorAll('select');
+      M.FormSelect.init(selects, {});
     }
-    
     handleClick(e){
-      console.log("Ive been clicked!", e.target.value)
       this.props.onDateChange(e.target.value)
     }
     render() {
@@ -28,7 +21,7 @@ class Dropdown extends Component {
           <div className="">
             <select onChange={this.handleClick}>
               {options.map((option) =>
-                <option >{option}</option>
+                <option key={option} >{option}</option>
                 )}
             </select>
             <label>Month</label>
