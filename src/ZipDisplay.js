@@ -34,14 +34,15 @@ function generateYearData(year) {
   return yearData;
 }
 
-function generateMonthData() {
-  let month = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
+function generateMonthData(month) {
+  console.log('MONTH', month)
+  let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
   for(let i = 1; i < 32; i++){
     const [max, min] = [95, 75];
     let temp = Math.floor(Math.random() * (+max - +min)) + +min;
-    month.push([i.toString(), temp, 'LightSkyBlue', temp])
+    monthData.push([i.toString(), temp, 'LightSkyBlue', temp])
   }
-  return month;
+  return monthData;
 }
 
 export default class ZipDisplay extends React.Component {
@@ -51,30 +52,38 @@ export default class ZipDisplay extends React.Component {
     	error: '', 
       data: '',
       yearData: '',
-      year: 2018
+      year: '2018',
+      month: 'June',
     };
     this.handleDateChange = this.handleDateChange.bind(this);
   }
   componentDidMount(){
-    let year = "2018"
-    this.getUpdatedData(year)
+    let month, year = [this.state.month, this.state.year]
+    this.getUpdatedData(month, year)
   }
 
-  getUpdatedData(year){
-    const mydata = generateMonthData()
+  getUpdatedData(month, year){
+    const mydata = generateMonthData(month)
     const myYearData = generateYearData(year)
     const data = (mydata)
     this.setState({data: mydata, yearData: myYearData})
   }
-  handleDateChange(year){
-    if(year == "Last Year"){
+  handleDateChange(input){
+    let month, year;
+    // console.log('YEAR', year, isNaN(year), this.state.year)
+    if(input.includes("This") || input.includes("Last")){
+      month = "June"
       year = "2018"
-    } else if (isNaN(year)) {
+    } else if (isNaN(input)) {
       year = this.state.year
+      month = input
+      this.setState({month: input})
     } else {
-      this.setState({year})
+      month = this.state.month
+      year = input
+      this.setState({year: input})
     }
-    this.getUpdatedData(year)
+    this.getUpdatedData(month, year)
   }
   render(){
   	const error = this.state.error;
