@@ -8,6 +8,7 @@ class YearChart extends Component {
   }
   render(){
 	const mydata = this.props.yearChartData;
+  console.log('YEAR CHART', mydata)
   return (
     <div className="">
       <Chart
