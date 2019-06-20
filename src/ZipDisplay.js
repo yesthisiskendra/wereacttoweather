@@ -10,7 +10,6 @@ function getTemp(){
   return temp
 }
 function formatYearData(yearData){
-  console.log('getting here')
   let formattedYearData = [yearData[0]]
   for(let i = 1; i < yearData.length - 1; i++){
     let array = []
@@ -19,7 +18,6 @@ function formatYearData(yearData){
     array.push(date, yearInstance[3])
     formattedYearData.push(array)
   }
-  console.log('FORMAT YEAR DATA', formattedYearData)
   return formattedYearData
 }
 
@@ -43,7 +41,6 @@ function generateYearData(year) {
       }
     }
   }
-  console.log('YEAR DATA', yearData)
   return yearData;
 }
 
@@ -109,6 +106,7 @@ export default class ZipDisplay extends React.Component {
     // const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
     const years = ['2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009']
     const yearData = this.state.yearData
+    console.log('YEAR DATA FROM STATE', yearData)
   	return (
   		<div>
   			<h3>for {zipcode}</h3>
@@ -120,7 +118,7 @@ export default class ZipDisplay extends React.Component {
           <div className="col m3"></div>
         </div>
   			<YearChart yearChartData={yearData} />
-        <button onClick={this.clearLocalStorage}>clear local storage</button>
+        <button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>
   		</div>
 	  );
   }
