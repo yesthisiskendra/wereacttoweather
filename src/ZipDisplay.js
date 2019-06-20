@@ -45,17 +45,19 @@ function generateYearData(year) {
 }
 
 async function getYearData(year){
-  let formattedYearData;
+  let yearData;
   let storedYearData = JSON.parse(localStorage.getItem("wereacttoweather_" + year)) || ''
   if(storedYearData){
     console.log('STORED YEAR DATA', storedYearData)
-    formattedYearData = formatYearData(storedYearData)
+    yearData = storedYearData;
+    // formattedYearData = formatYearData(storedYearData)
   } else {
     const generatedYearData = await generateYearData(year)
     localStorage.setItem("wereacttoweather_" + year, JSON.stringify(generatedYearData));
-    formattedYearData = formatYearData(generatedYearData)
+    yearData = generatedYearData;
+    // formattedYearData = formatYearData(generatedYearData)
   }
-  return formattedYearData;
+  return yearData;
 }
 
 function generateMonthData(month) {
@@ -90,6 +92,8 @@ export default class ZipDisplay extends React.Component {
   async getUpdatedData(year){
     let myYearData = await getYearData(year)
     this.setState({yearData: myYearData})
+    let myFormattedData = await formatYearData(myYearData)
+    this.setState({formattedData: myFormattedData})
   }
 
   handleDateChange(year){
@@ -106,6 +110,7 @@ export default class ZipDisplay extends React.Component {
     // const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
     const years = ['2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009']
     const yearData = this.state.yearData
+    const formattedData = this.state.formattedData
     console.log('YEAR DATA FROM STATE', yearData)
   	return (
   		<div>
@@ -117,7 +122,7 @@ export default class ZipDisplay extends React.Component {
           </div>
           <div className="col m3"></div>
         </div>
-  			<YearChart yearChartData={yearData} />
+  			<YearChart yearChartData={formattedData} />
         <button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>
   		</div>
 	  );
