@@ -4,14 +4,6 @@ import YearChart from './YearChart.js';
 import Dropdown from './Dropdown.js';
 import './App.css';
 
-// function formatDateAndTemp(year, month, day){
-//   let temp = Math.floor(Math.random() * (+max - +min)) + +min;
-//   let date = new Date (year, month, day)
-//   let array = []
-//   array.push(date, temp)
-//   return array
-// }
-
 const [max, min] = [95, 75];
 function getTemp(){
   let temp = Math.floor(Math.random() * (+max - +min)) + +min;
@@ -38,19 +30,16 @@ function generateYearData(year) {
       for(let ii = 1; ii < 29; ii++){
         let temp = getTemp()
         yearData.push([year,i,ii, temp])
-        // yearData.push(formatDateAndTemp(year,i,ii))
       }
     } else if ([0,2,4,6,7,9,11].includes(i)){
       for(let ii = 1; ii < 32; ii++){
         let temp = getTemp()
         yearData.push([year,i,ii, temp])
-        // yearData.push(formatDateAndTemp(year,i,ii))
       }
     } else {
       for(let ii = 1; ii < 31; ii++){
         let temp = getTemp()
         yearData.push([year,i,ii, temp])
-        // yearData.push(formatDateAndTemp(year,i,ii))
       }
     }
   }
@@ -59,24 +48,17 @@ function generateYearData(year) {
 }
 
 async function getYearData(year){
-  // Check if month/year is in local storage 
   let formattedYearData;
   let storedYearData = JSON.parse(localStorage.getItem("wereacttoweather_" + year)) || ''
   if(storedYearData){
     console.log('STORED YEAR DATA', storedYearData)
     formattedYearData = formatYearData(storedYearData)
-    // myYearData = storedYear
-    // console.log('STORED TYPE!', typeof(myYearData))
   } else {
     const generatedYearData = await generateYearData(year)
     localStorage.setItem("wereacttoweather_" + year, JSON.stringify(generatedYearData));
-    // STORE IT
-    // FORMAT IT
     formattedYearData = formatYearData(generatedYearData)
   }
   return formattedYearData;
-
-  // and format
 }
 
 function generateMonthData(month) {
@@ -108,22 +90,8 @@ export default class ZipDisplay extends React.Component {
     this.getUpdatedData(year)
   }
 
-  getUpdatedData(year){
-    // let myYearData;
-    // // var user = JSON.parse(localStorage.getItem('user'))
-    // let storedYear = JSON.parse(localStorage.getItem("wereacttoweather_" + year)) || ''
-    // if(storedYear){
-    //   myYearData = storedYear
-    //   // console.log('STORED TYPE!', typeof(myYearData))
-    // } else {
-    //   myYearData = generateYearData(year)
-    //   // console.log('Generated TYPE!', typeof(myYearData))
-    //   // localStorage.setItem('user', JSON.stringify(myYearData))
-    //   localStorage.setItem("wereacttoweather_" + year, JSON.stringify(myYearData));
-    // }
-
-
-    let myYearData = getYearData(year)
+  async getUpdatedData(year){
+    let myYearData = await getYearData(year)
     this.setState({yearData: myYearData})
   }
 
