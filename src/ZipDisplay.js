@@ -4,6 +4,21 @@ import YearChart from './YearChart.js';
 import Dropdown from './Dropdown.js';
 import './App.css';
 
+const months = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5, 
+  July: 6,
+  August: 7, 
+  September: 8,
+  October: 9,
+  November: 10,
+  December: 11
+}
+
 const [max, min] = [95, 75];
 function getTemp(){
   let temp = Math.floor(Math.random() * (+max - +min)) + +min;
@@ -19,6 +34,31 @@ function formatYearData(yearData){
     formattedYearData.push(array)
   }
   return formattedYearData
+}
+
+function generateMonthData(month) {
+  console.log('MONTH', month)
+  let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
+  for(let i = 1; i < 32; i++){
+    const [max, min] = [95, 75];
+    let temp = Math.floor(Math.random() * (+max - +min)) + +min;
+    monthData.push([i.toString(), temp, 'LightSkyBlue', temp])
+  }
+  console.log(monthData);
+  return monthData;
+}
+function formatMonthData(month, yearData){
+  console.log('MONTH', months[month])
+  console.log('YEAR DATA', yearData)
+  let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
+  yearData.map((day) => {
+    let strday = JSON.stringify(day)
+    let daySplit = strday.split(',')
+    if(day[1] == months[month]){
+      monthData.push([day[2].toString(), day[3], 'LightSkyBlue', day[3]])
+    }
+  })
+  return monthData
 }
 
 function generateYearData(year) {
@@ -48,7 +88,6 @@ async function getYearData(year){
   let yearData;
   let storedYearData = JSON.parse(localStorage.getItem("wereacttoweather_" + year)) || ''
   if(storedYearData){
-    console.log('STORED YEAR DATA', storedYearData)
     yearData = storedYearData;
     // formattedYearData = formatYearData(storedYearData)
   } else {
@@ -60,17 +99,6 @@ async function getYearData(year){
   return yearData;
 }
 
-function generateMonthData(month) {
-  console.log('MONTH', month)
-  let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
-  for(let i = 1; i < 32; i++){
-    const [max, min] = [95, 75];
-    let temp = Math.floor(Math.random() * (+max - +min)) + +min;
-    monthData.push([i.toString(), temp, 'LightSkyBlue', temp])
-  }
-  return monthData;
-}
-
 export default class ZipDisplay extends React.Component {
 	constructor(props) {
     super(props);
@@ -79,9 +107,10 @@ export default class ZipDisplay extends React.Component {
       data: '',
       yearData: '',
       year: 2018,
-      month: 'June',
+      currentMonth: 'June',
     };
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleMonthChange = this.handleMonthChange.bind(this);
   }
 
   componentDidMount(){
@@ -94,10 +123,24 @@ export default class ZipDisplay extends React.Component {
     this.setState({yearData: myYearData})
     let myFormattedData = await formatYearData(myYearData)
     this.setState({formattedData: myFormattedData})
+    this.getMonthData(this.state.currentMonth, myYearData)
+  }
+
+  async getMonthData(month){
+    console.log('month', month)
+    console.log(this.state.yearData)
+    let myMonthData = await formatMonthData(month, this.state.yearData)
+    this.setState({monthData: myMonthData})
+    // generateMonthData(month);
   }
 
   handleDateChange(year){
     this.getUpdatedData(year)
+  }
+
+  handleMonthChange(month){
+    this.setState({ currentMonth: month})
+    this.getMonthData(month)
   }
 
   clearLocalStorage(){
@@ -107,21 +150,24 @@ export default class ZipDisplay extends React.Component {
   	const error = this.state.error;
   	const zipcode = this.props.zipcode;
     // const week = ['this week', 'last week', 'next week']
-    // const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
+    const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
     const years = ['2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009']
     const yearData = this.state.yearData
     const formattedData = this.state.formattedData
-    console.log('YEAR DATA FROM STATE', yearData)
+    const monthData = this.state.monthData
+    // console.log('YEAR DATA FROM STATE', yearData)
   	return (
   		<div>
   			<h3>for {zipcode}</h3>
         <div className="row">
           <div className="col m3"></div>
           <div className="col m6">
+            <div className="col m6 s12"><Dropdown options={months} title={"Month"} onDateChange={this.handleMonthChange} /></div>
             <div className="col m6 s12"><Dropdown options={years} title={"Year"} onDateChange={this.handleDateChange} /></div>
           </div>
           <div className="col m3"></div>
         </div>
+        <BarChart barChartData={monthData}/>
   			<YearChart yearChartData={formattedData} />
         <button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>
   		</div>
