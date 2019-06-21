@@ -37,19 +37,15 @@ function formatYearData(yearData){
 }
 
 function generateMonthData(month) {
-  console.log('MONTH', month)
   let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
   for(let i = 1; i < 32; i++){
     const [max, min] = [95, 75];
     let temp = Math.floor(Math.random() * (+max - +min)) + +min;
     monthData.push([i.toString(), temp, 'LightSkyBlue', temp])
   }
-  console.log(monthData);
   return monthData;
 }
 function formatMonthData(month, yearData){
-  console.log('MONTH', months[month])
-  console.log('YEAR DATA', yearData)
   let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
   yearData.map((day) => {
     let strday = JSON.stringify(day)
@@ -89,12 +85,10 @@ async function getYearData(year){
   let storedYearData = JSON.parse(localStorage.getItem("wereacttoweather_" + year)) || ''
   if(storedYearData){
     yearData = storedYearData;
-    // formattedYearData = formatYearData(storedYearData)
   } else {
     const generatedYearData = await generateYearData(year)
     localStorage.setItem("wereacttoweather_" + year, JSON.stringify(generatedYearData));
     yearData = generatedYearData;
-    // formattedYearData = formatYearData(generatedYearData)
   }
   return yearData;
 }
@@ -127,11 +121,8 @@ export default class ZipDisplay extends React.Component {
   }
 
   async getMonthData(month){
-    console.log('month', month)
-    console.log(this.state.yearData)
     let myMonthData = await formatMonthData(month, this.state.yearData)
     this.setState({monthData: myMonthData})
-    // generateMonthData(month);
   }
 
   handleDateChange(year){
@@ -149,13 +140,11 @@ export default class ZipDisplay extends React.Component {
   render(){
   	const error = this.state.error;
   	const zipcode = this.props.zipcode;
-    // const week = ['this week', 'last week', 'next week']
     const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
     const years = ['2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009']
     const yearData = this.state.yearData
     const formattedData = this.state.formattedData
     const monthData = this.state.monthData
-    // console.log('YEAR DATA FROM STATE', yearData)
   	return (
   		<div>
   			<h3>for {zipcode}</h3>
@@ -169,7 +158,7 @@ export default class ZipDisplay extends React.Component {
         </div>
         <BarChart barChartData={monthData}/>
   			<YearChart yearChartData={formattedData} />
-        <button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>
+        {/*<button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>*/}
   		</div>
 	  );
   }
