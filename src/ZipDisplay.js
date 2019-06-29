@@ -24,6 +24,7 @@ function getTemp(){
   let temp = Math.floor(Math.random() * (+max - +min)) + +min;
   return temp
 }
+
 function formatYearData(yearData){
   let formattedYearData = [yearData[0]]
   for(let i = 1; i < yearData.length - 1; i++){
@@ -45,6 +46,7 @@ function generateMonthData(month) {
   }
   return monthData;
 }
+
 function formatMonthData(month, yearData){
   let monthData = [['Day', 'Temperature', { role: 'style' }, { role: 'annotation' } ]]
   yearData.map((day) => {
@@ -94,10 +96,10 @@ async function getYearData(year){
 }
 
 export default class ZipDisplay extends React.Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
-    	error: '', 
+      error: '', 
       data: '',
       yearData: '',
       year: 2018,
@@ -137,17 +139,18 @@ export default class ZipDisplay extends React.Component {
   clearLocalStorage(){
     localStorage.clear();
   }
+  
   render(){
-  	const error = this.state.error;
-  	const zipcode = this.props.zipcode;
+    const error = this.state.error;
+    const zipcode = this.props.zipcode;
     const months = ['This month', 'January', 'February', 'March', 'April', 'May','July', 'August', 'September', 'October', 'November', 'December']
     const years = ['2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009']
     const yearData = this.state.yearData
     const formattedData = this.state.formattedData
     const monthData = this.state.monthData
-  	return (
-  		<div>
-  			<h3>for {zipcode}</h3>
+    return (
+      <div>
+        <h3>for {zipcode}</h3>
         <div className="row">
           <div className="col m3"></div>
           <div className="col m6">
@@ -157,9 +160,9 @@ export default class ZipDisplay extends React.Component {
           <div className="col m3"></div>
         </div>
         <BarChart barChartData={monthData}/>
-  			<YearChart yearChartData={formattedData} />
+        <YearChart yearChartData={formattedData} />
         {/*<button className="btn waves-effect waves-light" onClick={this.clearLocalStorage}>For Testing: Clear Local Storage</button>*/}
-  		</div>
-	  );
+      </div>
+    );
   }
 }

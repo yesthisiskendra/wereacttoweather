@@ -3,11 +3,11 @@ import Chart from 'react-google-charts';
 import './App.css';
 
 class YearChart extends Component {
-    constructor(props){
+  constructor(props){
     super(props);
   }
   render(){
-	const mydata = this.props.yearChartData;
+  const mydata = this.props.yearChartData;
   return (
     <div className="">
       <Chart
